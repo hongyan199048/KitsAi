@@ -1,9 +1,9 @@
 // Supabase 配置文件
 const SUPABASE_CONFIG = {
-    // 替换为你的 Supabase 项目 URL
-    url: 'YOUR_SUPABASE_URL',
-    // 替换为你的 Supabase 公开密钥
-    anonKey: 'YOUR_SUPABASE_ANON_KEY'
+    // Supabase 项目 URL
+    url: 'https://iywvxudcatsvgqspnwsm.supabase.co',
+    // Supabase 公开密钥
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5d3Z4dWRjYXRzdmdxc3Bud3NtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2OTM4NDksImV4cCI6MjA3ODI2OTg0OX0.xjaG063SbU5CQRL3QKmFMwRgaHj6mTmJTNfO-_BFD7A'
 };
 
 // 初始化 Supabase 客户端
