@@ -12,6 +12,9 @@ class MagicPetApp {
         // 等待服务初始化
         await this.waitForServices();
         
+        // 初始化背景音乐
+        this.initBackgroundMusic();
+        
         // 检查登录状态
         await this.checkAuth();
         
@@ -59,6 +62,34 @@ class MagicPetApp {
             await new Promise(resolve => setTimeout(resolve, 100));
             attempts++;
         }
+    }
+
+    initBackgroundMusic() {
+        const bgMusic = document.getElementById('bgMusic');
+        if (!bgMusic) return;
+
+        // 设置音量（较低，不干扰语音识别）
+        bgMusic.volume = 0.3;
+
+        // 处理浏览器自动播放限制
+        const playMusic = () => {
+            bgMusic.play().catch(error => {
+                console.log('背景音乐需要用户交互后才能播放');
+            });
+        };
+
+        // 尝试自动播放
+        playMusic();
+
+        // 如果自动播放失败，在第一次用户交互时播放
+        const startMusicOnInteraction = () => {
+            playMusic();
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+        };
+
+        document.addEventListener('click', startMusicOnInteraction, { once: true });
+        document.addEventListener('touchstart', startMusicOnInteraction, { once: true });
     }
 
     bindEvents() {

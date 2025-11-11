@@ -31,10 +31,10 @@ class AuthManager {
         try {
             const user = await window.MagicPetAPI.Auth.getCurrentUser();
             if (user) {
-                // 已登录，跳转到主页
+                // 已登录，跳转到宠物生成页
                 this.showMessage('Already logged in! Redirecting...', 'success');
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'create-pet.html';
                 }, 1000);
             }
         } catch (error) {
@@ -128,9 +128,9 @@ class AuthManager {
             if (result.success) {
                 this.showMessage('✅ Login successful! Redirecting...', 'success');
                 
-                // 延迟跳转
+                // 延迟跳转到宠物生成页面
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'create-pet.html';
                 }, 1500);
             } else {
                 this.showMessage(`❌ Login failed: ${result.error}`, 'error');

@@ -254,3 +254,23 @@ body {
         width: 100%;
     }
 }
+
+/* 音乐版权声明 */
+.music-credit {
+    position: fixed;
+    bottom: 5px;
+    right: 10px;
+    font-size: 10px;
+    color: #999;
+    opacity: 0.6;
+    z-index: 1000;
+}
+
+.music-credit a {
+    color: #999;
+    text-decoration: none;
+}
+
+.music-credit a:hover {
+    color: #666;
+}

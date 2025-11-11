@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Pet - Magic Pet Island</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="create-pet.css">
+    <script src="supabase.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="create-pet.js"></script>
+</head>
+<body>
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="frame-root">
+        <!-- 顶部导航栏 -->
+        <div class="header-frame">
+            <h1 class="app-title">Magic Pet Island</h1>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="main-content-frame">
+            <div class="content-container">
+                <div class="create-pet-card">
+                    <!-- 标题区域 -->
+                    <div class="title-section">
+                        <h2 class="main-title">🎨 Create Your Magic Pet!</h2>
+                        <p class="subtitle">Describe your dream pet and AI will bring it to life!</p>
+                    </div>
+
+                    <!-- 宠物预览区域 -->
+                    <div class="pet-preview-section">
+                        <div class="pet-preview" id="petPreview">
+                            <div class="placeholder-icon">🐾</div>
+                            <p class="placeholder-text">Your pet will appear here</p>
+                        </div>
+                    </div>
+
+                    <!-- 描述文字显示 -->
+                    <div class="description-display" id="descriptionDisplay">
+                        <p class="description-label">Your description:</p>
+                        <p class="description-text" id="descriptionText">Press the button and describe your pet...</p>
+                    </div>
+
+                    <!-- 语音按钮 -->
+                    <div class="voice-section">
+                        <button class="voice-button" id="voiceButton">
+                            <span class="mic-icon">🎤</span>
+                            <span class="button-text">Describe Your Pet</span>
+                        </button>
+                        <p class="hint-text">Tap and say something like: "A cute blue dragon with wings!"</p>
+                    </div>
+
+                    <!-- 生成按钮 -->
+                    <div class="action-section">
+                        <button class="generate-button hidden" id="generateButton">
+                            <span class="button-text">✨ Generate My Pet</span>
+                        </button>
+                        <button class="skip-button" id="skipButton">
+                            <span class="button-text">Skip & Use Default Pet</span>
+                        </button>
+                    </div>
+
+                    <!-- 加载状态 -->
+                    <div class="loading-overlay hidden" id="loadingOverlay">
+                        <div class="spinner"></div>
+                        <p>Creating your magical pet...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 音乐版权声明 -->
+    <div class="music-credit">
+        Music by <a href="https://pixabay.com/users/bransboynd-51721546/" target="_blank" rel="noopener">Roman Rumyantsev</a> from <a href="https://pixabay.com/" target="_blank" rel="noopener">Pixabay</a>
+    </div>
+</body>
+</html>

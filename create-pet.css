@@ -1,0 +1,281 @@
+/* 宠物生成页面样式 */
+
+.create-pet-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #FFFFFF;
+    border-radius: 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* 标题区域 */
+.title-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.main-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #1C1C0D;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #9E9E47;
+    margin: 0;
+}
+
+/* 宠物预览区域 */
+.pet-preview-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.pet-preview {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, #FFE5B4 0%, #FFD700 100%);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.pet-preview.has-image {
+    background: #F5F5F5;
+}
+
+.pet-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.placeholder-icon {
+    font-size: 80px;
+    margin-bottom: 10px;
+    opacity: 0.6;
+}
+
+.placeholder-text {
+    font-size: 14px;
+    color: #666;
+    opacity: 0.8;
+}
+
+/* 描述文字显示 */
+.description-display {
+    background: #F8F8F8;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    min-height: 80px;
+}
+
+.description-label {
+    font-size: 12px;
+    color: #999;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+}
+
+.description-text {
+    font-size: 16px;
+    color: #1C1C0D;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.description-text.empty {
+    color: #999;
+    font-style: italic;
+}
+
+/* 语音按钮区域 */
+.voice-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.voice-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FF6B9D;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.voice-button:hover {
+    background: #FF5089;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 107, 157, 0.4);
+}
+
+.voice-button:active {
+    transform: translateY(0);
+}
+
+.voice-button.listening {
+    background: #FF3366;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.mic-icon {
+    font-size: 24px;
+}
+
+/* 操作按钮区域 */
+.action-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.generate-button {
+    background: #FAFA1F;
+    color: #1C1C0D;
+    border: none;
+    border-radius: 24px;
+    padding: 14px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(250, 250, 31, 0.3);
+}
+
+.generate-button:hover {
+    background: #F0F01F;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(250, 250, 31, 0.4);
+}
+
+.generate-button:active {
+    transform: translateY(0);
+}
+
+.generate-button.hidden {
+    display: none;
+}
+
+.skip-button {
+    background: transparent;
+    color: #999;
+    border: 1px solid #E5E5E5;
+    border-radius: 20px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.skip-button:hover {
+    background: #F5F5F5;
+    border-color: #CCC;
+    color: #666;
+}
+
+/* 加载状态 */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    z-index: 100;
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+.loading-overlay .spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #E5E5E5;
+    border-top: 6px solid #FAFA1F;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+    font-size: 16px;
+    color: #666;
+    font-weight: 600;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+    .create-pet-card {
+        padding: 20px;
+    }
+
+    .main-title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .pet-preview {
+        width: 250px;
+        height: 250px;
+    }
+
+    .voice-button {
+        font-size: 16px;
+        padding: 12px 24px;
+    }
+
+    .generate-button {
+        font-size: 16px;
+        padding: 12px 32px;
+    }
+}
