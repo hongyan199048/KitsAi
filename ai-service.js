@@ -3,9 +3,14 @@ const AI_CONFIG = {
     // 语音识别模式选择：'browser' 或 'whisper'
     speechMode: 'whisper', // 已切换到 Whisper API 高精度模式
     
-    // OpenAI 配置（Whisper + GPT）
+    // 后端 API 代理配置（安全）
+    apiProxy: {
+        whisperUrl: '/api/whisper', // 后端代理接口，不暴露 API Key
+    },
+    
+    // OpenAI 配置（仅用于直接调用，不推荐）
     openai: {
-        apiKey: '', // 请在浏览器控制台设置: window.MagicPetAI.config.openai.apiKey = '你的API_KEY'
+        apiKey: '', // 已迁移到后端，前端不再需要
         whisperModel: 'whisper-1',
         gptModel: 'gpt-3.5-turbo',
         baseURL: 'https://api.openai.com/v1'
@@ -103,53 +108,43 @@ class SpeechRecognitionService {
         });
     }
 
-    // Whisper API 语音识别
+    // Whisper API 语音识别（通过后端代理）
     async startWhisperRecognition() {
         try {
-            // 检查 API Key
-            if (!AI_CONFIG.openai.apiKey || AI_CONFIG.openai.apiKey === 'YOUR_OPENAI_API_KEY') {
-                throw new Error('请先配置 OpenAI API Key');
-            }
-
             this.isListening = true;
             console.log('🎤 开始录音（Whisper 模式）...');
 
             // 录制音频
             const audioBlob = await this.recordAudio();
             
-            console.log('📤 发送到 Whisper API...');
+            console.log('📤 发送到后端 API...');
 
-            // 创建 FormData
-            const formData = new FormData();
-            formData.append('file', audioBlob, 'audio.webm');
-            formData.append('model', AI_CONFIG.openai.whisperModel);
-            
-            // 添加可选参数
+            // 构建请求 URL 和参数
+            const params = new URLSearchParams();
             if (AI_CONFIG.whisper.language && AI_CONFIG.whisper.language !== 'auto') {
-                formData.append('language', AI_CONFIG.whisper.language);
+                params.append('language', AI_CONFIG.whisper.language);
             }
             if (AI_CONFIG.whisper.prompt) {
-                formData.append('prompt', AI_CONFIG.whisper.prompt);
+                params.append('prompt', AI_CONFIG.whisper.prompt);
             }
             if (AI_CONFIG.whisper.temperature !== undefined) {
-                formData.append('temperature', AI_CONFIG.whisper.temperature.toString());
+                params.append('temperature', AI_CONFIG.whisper.temperature.toString());
             }
             if (AI_CONFIG.whisper.responseFormat) {
-                formData.append('response_format', AI_CONFIG.whisper.responseFormat);
+                params.append('response_format', AI_CONFIG.whisper.responseFormat);
             }
 
-            // 调用 Whisper API
-            const response = await fetch(`${AI_CONFIG.openai.baseURL}/audio/transcriptions`, {
+            const url = `${AI_CONFIG.apiProxy.whisperUrl}?${params.toString()}`;
+
+            // 调用后端代理 API
+            const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${AI_CONFIG.openai.apiKey}`
-                },
-                body: formData
+                body: audioBlob
             });
 
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(`Whisper API 错误: ${error.error?.message || response.statusText}`);
+                throw new Error(`API 错误: ${error.error || response.statusText}`);
             }
 
             const result = await response.json();
