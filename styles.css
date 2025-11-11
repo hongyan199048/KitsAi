@@ -182,9 +182,8 @@ body {
     border: none;
     border-radius: 20px;
     height: 40px;
-    padding: 0 16px;
+    padding: 0 20px;
     cursor: pointer;
-    flex: 1;
     transition: all 0.2s ease;
 }
 
@@ -206,9 +205,8 @@ body {
     border: none;
     border-radius: 20px;
     height: 40px;
-    padding: 0 16px;
+    padding: 0 20px;
     cursor: pointer;
-    flex: 1;
     transition: all 0.2s ease;
 }
 
