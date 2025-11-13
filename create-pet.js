@@ -216,19 +216,32 @@ class PetSelector {
 
     async savePetToDatabase() {
         try {
+            console.log('💾 开始保存宠物信息...');
+            console.log('宠物数据:', this.selectedPet);
+            
+            // 保存到 localStorage，以便在主页面使用
+            localStorage.setItem('selectedPet', JSON.stringify(this.selectedPet));
+            
+            // 验证保存是否成功
+            const saved = localStorage.getItem('selectedPet');
+            console.log('✅ localStorage 保存成功:', saved);
+            
             const user = await window.MagicPetAPI.Auth.getCurrentUser();
-            if (!user) return;
+            if (!user) {
+                console.log('⚠️ 用户未登录，仅保存到本地');
+                return;
+            }
 
             // TODO: 保存宠物信息到 Supabase
             // 需要创建一个 pets 表
-            console.log('保存宠物信息:', {
+            console.log('📊 保存宠物信息到数据库:', {
                 userId: user.id,
                 petType: this.selectedPet.type,
                 petName: this.selectedPet.name,
                 petIcon: this.selectedPet.icon
             });
         } catch (error) {
-            console.error('保存宠物失败:', error);
+            console.error('❌ 保存宠物失败:', error);
         }
     }
 }

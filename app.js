@@ -5,6 +5,8 @@ class MagicPetApp {
         this.score = 0;
         this.wordsLearned = [];
         this.isListening = false;
+        this.feedCount = 0; // 添加喂食计数
+        this.petUpgraded = false; // 宠物是否已升级
         this.init();
     }
 
@@ -14,6 +16,12 @@ class MagicPetApp {
         
         // 初始化背景音乐
         this.initBackgroundMusic();
+        
+        // 加载宠物图片
+        this.loadPetImage();
+        
+        // 从 localStorage 读取喂食进度
+        this.loadFeedProgress();
         
         // 检查登录状态
         await this.checkAuth();
@@ -90,6 +98,118 @@ class MagicPetApp {
 
         document.addEventListener('click', startMusicOnInteraction, { once: true });
         document.addEventListener('touchstart', startMusicOnInteraction, { once: true });
+    }
+
+    loadPetImage() {
+        // 从 localStorage 读取选中的宠物
+        const selectedPet = localStorage.getItem('selectedPet');
+        const petImage = document.querySelector('.pet-image');
+        
+        console.log('🐾 加载宠物图片...');
+        console.log('localStorage 中的宠物数据:', selectedPet);
+        
+        if (selectedPet && petImage) {
+            try {
+                const pet = JSON.parse(selectedPet);
+                this.currentPet = pet; // 保存当前宠物信息
+                
+                console.log('✅ 解析宠物数据成功:', pet);
+                
+                // 更新宠物显示：使用 emoji 作为图片
+                petImage.textContent = pet.icon;
+                petImage.style.fontSize = '120px';
+                petImage.style.display = 'flex';
+                petImage.style.alignItems = 'center';
+                petImage.style.justifyContent = 'center';
+                petImage.title = `Click to hear the word! (${pet.name})`;
+                
+                console.log('✅ 宠物加载完成:', pet.name, pet.icon);
+            } catch (error) {
+                console.error('❌ 加载宠物信息失败:', error);
+                this.setDefaultPet(petImage);
+            }
+        } else if (petImage) {
+            console.log('⚠️ 未找到已选宠物，使用默认宠物');
+            this.setDefaultPet(petImage);
+        } else {
+            console.error('❌ 未找到 .pet-image 元素！');
+        }
+    }
+
+    setDefaultPet(petImage) {
+        // 设置默认宠物（小恐龙）
+        this.currentPet = { type: 'dinosaur', name: 'Dino', icon: '🦕' };
+        petImage.textContent = '🦕';
+        petImage.style.fontSize = '120px';
+        petImage.style.display = 'flex';
+        petImage.style.alignItems = 'center';
+        petImage.style.justifyContent = 'center';
+        petImage.title = 'Click to hear the word! (Dino)';
+        console.log('🦕 使用默认宠物');
+    }
+
+    loadFeedProgress() {
+        // 读取喂食进度
+        const savedProgress = localStorage.getItem('feedProgress');
+        if (savedProgress) {
+            this.feedCount = parseInt(savedProgress) || 0;
+            console.log(`🍽️ 已喂食 ${this.feedCount} 次`);
+            
+            // 如果已经达到 5 次，升级宠物
+            if (this.feedCount >= 5 && !this.petUpgraded) {
+                this.upgradePet();
+            }
+        }
+    }
+
+    saveFeedProgress() {
+        localStorage.setItem('feedProgress', this.feedCount.toString());
+    }
+
+    // 升级宠物！
+    upgradePet() {
+        if (this.petUpgraded) return;
+        
+        this.petUpgraded = true;
+        const petImage = document.querySelector('.pet-image');
+        if (!petImage) return;
+
+        // 显示升级提示
+        this.showHint('🎉 Amazing! Your pet is evolving!');
+        
+        // 添加闪烁动画
+        petImage.classList.add('pet-upgrading');
+        
+        setTimeout(() => {
+            // 根据不同宠物类型，显示不同的 GIF 或动画
+            const petType = this.currentPet?.type || 'dinosaur';
+            
+            // 使用 Giphy 的免费 GIF API 或自定义 GIF
+            const petGifs = {
+                dinosaur: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzBkZWY4OGU5MWRiNzYwNjU0MzUyYzgyZjI0NzRiZTJmZGY3YzY5ZiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/l0HlHFRbmaZtBRhXG/giphy.gif',
+                rabbit: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjI4YzkyYzg0OGQ3YzViN2Q3ZTczOTMxYzkyZTk3ZjQ3YWEzYzNhYiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/3o7TKMt1VVNkHV2PaE/giphy.gif',
+                turtle: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjE4YzNhMzQ0YmI5ZjA4ZDNiYzBhNzgzOGY1OGQ4NzE3MWY1YzQxYyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/oGO1MPNUVbbk4/giphy.gif',
+                zebra: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGQxYjE3YzE3ZWY3ZTMxNWEzODJiMGE5YjUyZjY4ZjUzZjI3YzYxYSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/l0IylQoMkcbZUbtHW/giphy.gif',
+                giraffe: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDJlNjE4YzIxZjY4ZTM1YmI2NzIzYjI1ZGVhNWRkODg2YzljZDQ4YiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/3o7TKQ8kAP0f9X5PoY/giphy.gif',
+                lion: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzQ3YmY4YzI2NWE1YzY5MWY0YzNhZWY3ZjIzYjUwYmE1ZjI2N2ZiYyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/xUPGcuqhw1I2BA5eCY/giphy.gif',
+                cat: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzE3ODk4N2Q0YzM3YzQ2ZTlhZWNhYjBhNWY4ZjM5NzE4NjE5YjY1YiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/JIX9t2j0ZTN9S/giphy.gif',
+                tiger: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjE3NmZiODc0YzY3ZTI2YTI2NWM3ZGY5YzZiNjIzYzM2YzE4YmY0MSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/l0HlNQ03J5JxX6lva/giphy.gif'
+            };
+            
+            const gifUrl = petGifs[petType] || petGifs.dinosaur;
+            
+            // 清空内容，替换为 GIF
+            petImage.textContent = '';
+            petImage.innerHTML = `<img src="${gifUrl}" alt="${this.currentPet?.name || 'Pet'} evolved!" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">`;
+            
+            petImage.classList.remove('pet-upgrading');
+            petImage.classList.add('pet-upgraded');
+            
+            // 显示升级成功提示
+            this.showHint(`✨ ${this.currentPet?.name || 'Your pet'} has evolved! Keep learning to unlock more surprises! 🌟`);
+            
+            console.log('✅ 宠物升级完成！');
+        }, 1500);
     }
 
     bindEvents() {
@@ -196,6 +316,12 @@ class MagicPetApp {
     async feedPet(points) {
         this.score += points;
         
+        // 增加喂食计数
+        this.feedCount++;
+        this.saveFeedProgress();
+        
+        console.log(`🍽️ 喂食计数: ${this.feedCount}/5`);
+        
         // 宠物图片动画效果
         const petImage = document.querySelector('.pet-image');
         if (petImage) {
@@ -205,6 +331,13 @@ class MagicPetApp {
             setTimeout(() => {
                 petImage.style.transform = 'scale(1)';
             }, 300);
+        }
+
+        // 检查是否达到 5 次喂食（临时改为1次，方便测试）
+        if (this.feedCount === 0 && !this.petUpgraded) {
+            setTimeout(() => {
+                this.upgradePet();
+            }, 1000);
         }
 
         // 获取 AI 鼓励
