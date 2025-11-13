@@ -1,7 +1,7 @@
 // AI 和语音识别服务配置
 const AI_CONFIG = {
     // 语音识别模式选择：'browser' 或 'whisper'
-    speechMode: 'whisper', // 已切换到 Whisper API 高精度模式
+    speechMode: 'whisper', // Whisper API 高精度模式（需要配置 OpenAI API Key）
     
     // 后端 API 代理配置（安全）
     apiProxy: {
@@ -215,13 +215,8 @@ class SpeechRecognitionService {
                     }
                 };
 
-                // 最大录音时长
-                const maxTimer = setTimeout(stopRecording, maxDuration);
-
-                // 允许手动停止（通过检测静音或用户操作）
-                // 这里简化处理，实际可以添加静音检测
-                setTimeout(stopRecording, 5000); // 5秒后自动停止
-                clearTimeout(maxTimer);
+                // 最大录音时长（3秒，适合单词识别）
+                setTimeout(stopRecording, 3000);
 
             } catch (error) {
                 reject(new Error('无法访问麦克风: ' + error.message));
