@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Magic Pet Island - Learn English words with your pet!">
     <title>Magic Pet Island</title>
+    <script>
+        // 检查是否已经选择宠物
+        const selectedPet = localStorage.getItem('selectedPet');
+        if (!selectedPet) {
+            // 未选择宠物，跳转到选择页面
+            window.location.href = 'create-pet.html';
+        }
+    </script>
     <link rel="stylesheet" href="styles.css">
     <script src="supabase.js"></script>
     <script src="ai-service.js"></script>
