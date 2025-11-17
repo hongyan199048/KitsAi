@@ -15,6 +15,15 @@ const AI_CONFIG = {
     }
 };
 
+// 诊断日志：检查配置状态
+console.log('🔍 AI_CONFIG 诊断信息:', {
+    speechMode: AI_CONFIG.speechMode,
+    apiProxy: AI_CONFIG.apiProxy,
+    minimax: AI_CONFIG.minimax
+});
+console.log('🔍 当前页面URL:', window.location.href);
+console.log('🔍 API代理完整路径:', window.location.origin + AI_CONFIG.apiProxy.speechUrl);
+
 // 语音识别服务（支持浏览器原生和 Whisper API）
 class SpeechRecognitionService {
     constructor() {

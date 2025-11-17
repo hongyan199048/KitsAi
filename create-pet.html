@@ -11,10 +11,10 @@
     <script src="create-pet.js"></script>
 </head>
 <body>
-    <!-- 背景音乐 -->
-    <audio id="bgMusic" loop autoplay>
+    <!-- 背景音乐（已禁用） -->
+    <!-- <audio id="bgMusic" loop autoplay>
         <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
-    </audio>
+    </audio> -->
     
     <div class="frame-root">
         <!-- 顶部导航栏 -->
@@ -39,21 +39,27 @@
                         <div class="pets-carousel" id="petsCarousel">
                             <!-- 小恐龙 -->
                             <div class="pet-card" data-pet="dinosaur">
-                                <div class="pet-icon">🦕</div>
+                                <div class="pet-icon">
+                                    <img src="assets/image/恐龙.png" alt="Dino" style="width: 100px; height: 100px; object-fit: contain;">
+                                </div>
                                 <h3 class="pet-name">Dino</h3>
                                 <p class="pet-desc">Brave & Strong</p>
                             </div>
                             
                             <!-- 小兔子 -->
                             <div class="pet-card" data-pet="rabbit">
-                                <div class="pet-icon">🐰</div>
+                                <div class="pet-icon">
+                                    <img src="assets/image/兔子.png" alt="Bunny" style="width: 100px; height: 100px; object-fit: contain;">
+                                </div>
                                 <h3 class="pet-name">Bunny</h3>
                                 <p class="pet-desc">Quick & Clever</p>
                             </div>
                             
                             <!-- 小乌龟 -->
                             <div class="pet-card" data-pet="turtle">
-                                <div class="pet-icon">🐢</div>
+                                <div class="pet-icon">
+                                    <img src="assets/image/乌龟.png" alt="Shelly" style="width: 100px; height: 100px; object-fit: contain;">
+                                </div>
                                 <h3 class="pet-name">Shelly</h3>
                                 <p class="pet-desc">Patient & Wise</p>
                             </div>
@@ -119,9 +125,9 @@
         </div>
     </div>
     
-    <!-- 音乐版权声明 -->
-    <div class="music-credit">
+    <!-- 音乐版权声明（已禁用） -->
+    <!-- <div class="music-credit">
         Music by <a href="https://pixabay.com/users/backgroundmusicforvideo-46826676/" target="_blank" rel="noopener">Viacheslav Starostin</a> from <a href="https://pixabay.com/music/" target="_blank" rel="noopener">Pixabay</a>
-    </div>
+    </div> -->
 </body>
 </html>

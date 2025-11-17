@@ -11,8 +11,19 @@ class MagicPetApp {
     }
 
     async init() {
+        console.log('🚀 开始应用初始化...');
+        
+        // 诊断：检查全局服务状态
+        console.log('🔍 服务状态诊断:', {
+            MagicPetAI: !!window.MagicPetAI,
+            MagicPetAPI: !!window.MagicPetAPI,
+            supabase: !!window.supabase
+        });
+        
         // 等待服务初始化
+        console.log('⏳ 等待服务加载...');
         await this.waitForServices();
+        console.log('✅ 服务加载完成');
         
         // 初始化背景音乐
         this.initBackgroundMusic();
@@ -66,9 +77,35 @@ class MagicPetApp {
     async waitForServices() {
         // 等待所有服务加载完成
         let attempts = 0;
-        while ((!window.MagicPetAI || !window.MagicPetAPI) && attempts < 50) {
+        const maxAttempts = 50;
+        
+        console.log('🔄 开始等待服务...');
+        
+        while ((!window.MagicPetAI || !window.MagicPetAPI) && attempts < maxAttempts) {
             await new Promise(resolve => setTimeout(resolve, 100));
             attempts++;
+            
+            if (attempts % 10 === 0) {
+                console.log(`⏰ 等待服务中... 尝试 ${attempts}/${maxAttempts}`, {
+                    MagicPetAI: !!window.MagicPetAI,
+                    MagicPetAPI: !!window.MagicPetAPI,
+                    supabase: !!window.supabase
+                });
+            }
+        }
+        
+        if (attempts >= maxAttempts) {
+            console.error('❌ 服务加载超时！', {
+                MagicPetAI: !!window.MagicPetAI,
+                MagicPetAPI: !!window.MagicPetAPI,
+                supabase: !!window.supabase
+            });
+        } else {
+            console.log('✅ 服务等待完成', {
+                MagicPetAI: !!window.MagicPetAI,
+                MagicPetAPI: !!window.MagicPetAPI,
+                supabase: !!window.supabase
+            });
         }
     }
 
