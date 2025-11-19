@@ -269,10 +269,26 @@ class MagicPetApp {
             backButton.addEventListener('click', () => this.handleSignOut());
         }
 
+        // Change Pet 按钮
+        const changePetButton = document.querySelector('.change-pet-button');
+        if (changePetButton) {
+            changePetButton.addEventListener('click', () => this.handleChangePet());
+        }
+
         // 宠物图片点击 - 朗读当前单词
         const petImage = document.querySelector('.pet-image');
         if (petImage) {
             petImage.addEventListener('click', () => this.speakCurrentWord());
+        }
+    }
+
+    // 处理切换宠物
+    handleChangePet() {
+        if (confirm('Do you want to choose a different pet? Your current progress will be saved.')) {
+            // 清除当前宠物选择，但不清除学习进度
+            localStorage.removeItem('selectedPet');
+            // 跳转到选择宠物页面
+            window.location.href = 'create-pet.html';
         }
     }
 
@@ -418,7 +434,7 @@ class MagicPetApp {
                     '✅ 保存学习记录\n' +
                     '✅ 跨设备同步\n' +
                     '✅ 解锁更多奖励\n\n' +
-                    '点击“确定”去登录，点击“取消”继续游客模式'
+                    '点击"确定"去登录，点击"取消"继续游客模式'
                 );
                 
                 if (wantToSave) {
