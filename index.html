@@ -6,6 +6,14 @@
     <meta name="description" content="Magic Pet Island - Learn English words with your pet!">
     <title>Magic Pet Island</title>
     <script>
+        // 检查用户登录状态
+        const user = localStorage.getItem('user');
+        if (!user) {
+            // 未登录，跳转到登录页面
+            window.location.href = 'auth.html';
+            return;
+        }
+        
         // 检查是否已经选择宠物
         const selectedPet = localStorage.getItem('selectedPet');
         if (!selectedPet) {
